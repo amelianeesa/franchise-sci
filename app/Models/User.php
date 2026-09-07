@@ -2,31 +2,55 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    protected $fillable = [
+        'role',
+        'jenis_pelanggan',
+        'name',
+        'email',
+        'password',
+        'npwp',
+        'company_name',
+        'jabatan',
+        'phone',
+        'whatsapp',
+        'branch_id',
+        'no_sertifikasi_keahlian',
+        'bidang_keahlian',
+        'is_active',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'bidang_keahlian' => 'array',
+    ];
+
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Relasi: order-order yang diajukan user ini sebagai pelanggan.
      */
-    protected function casts(): array
+    public function orders()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(Order::class, 'customer_id');
+    }
+
+    /**
+     * Relasi: cabang tempat user bertugas (khusus admin_cabang).
+     */
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
     }
 }
