@@ -38,7 +38,7 @@
 
                     <div class="space-y-1">
                         <label for="name" class="text-[11px] font-semibold text-slate-700">Nama Lengkap</label>
-                        <input type="text" id="name" name="name" required value="{{ old('name') }}" placeholder="Ahmad Fauzi"
+                        <input type="text" id="name" name="name" required value="{{ old('name') }}"
                             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:bg-white focus:border-[#003366] focus:ring-1 focus:ring-[#003366] transition">
                     </div>
 
@@ -54,13 +54,13 @@
 
                     <div class="space-y-1">
                         <label for="company_name" class="text-[11px] font-semibold text-slate-700">Nama Perusahaan / Instansi</label>
-                        <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" placeholder="PT Contoh Sejahtera"
+                        <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}"
                             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:bg-white focus:border-[#003366] focus:ring-1 focus:ring-[#003366] transition">
                     </div>
 
                     <div class="space-y-1">
                         <label for="jabatan" class="text-[11px] font-semibold text-slate-700">Jabatan</label>
-                        <input type="text" id="jabatan" name="jabatan" value="{{ old('jabatan') }}" placeholder="Manager / Staff"
+                        <input type="text" id="jabatan" name="jabatan" value="{{ old('jabatan') }}" 
                             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:bg-white focus:border-[#003366] focus:ring-1 focus:ring-[#003366] transition">
                     </div>
 
@@ -72,19 +72,19 @@
 
                     <div class="space-y-1">
                         <label for="whatsapp" class="text-[11px] font-semibold text-slate-700">Nomor WhatsApp</label>
-                        <input type="tel" id="whatsapp" name="whatsapp" value="{{ old('whatsapp') }}" required placeholder="081234567890"
+                        <input type="tel" id="whatsapp" name="whatsapp" value="{{ old('whatsapp') }}" r
                             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:bg-white focus:border-[#003366] focus:ring-1 focus:ring-[#003366] transition">
                     </div>
 
                     <div class="space-y-1">
                         <label for="phone" class="text-[11px] font-semibold text-slate-700">Telepon Kantor / Rumah</label>
-                        <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" placeholder="0211234567"
+                        <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" 
                             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:bg-white focus:border-[#003366] focus:ring-1 focus:ring-[#003366] transition">
                     </div>
 
                     <div class="space-y-1 md:col-span-2">
                         <label for="email" class="text-[11px] font-semibold text-slate-700">Alamat Email Aktif</label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" required placeholder="nama@perusahaan.com"
+                        <input type="email" id="email" name="email" value="{{ old('email') }}"
                             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:bg-white focus:border-[#003366] focus:ring-1 focus:ring-[#003366] transition">
                     </div>
 
