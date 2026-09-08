@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\ServiceCategory;
 use App\Models\Product;
-use DB;
+use Illuminate\Support\Str;
+// use DB;
+use Illuminate\Support\Facades\DB;
 
 class ProductSeeder extends Seeder
 {
@@ -18,26 +20,31 @@ class ProductSeeder extends Seeder
 
         $sertifikasi = ServiceCategory::create([
             'nama' => 'Sertifikasi',
+            'slug' => Str::slug('Sertifikasi'),
             'deskripsi' => 'Layanan sertifikasi produk, sistem manajemen, serta personel.'
         ]);
 
         $inspeksi = ServiceCategory::create([
             'nama' => 'Inspeksi & Audit',
+            'slug' => Str::slug('Inspeksi & Audit'),
             'deskripsi' => 'Layanan inspeksi teknis dan audit kepatuhan sesuai standar industri.'
         ]);
 
         $pengujian = ServiceCategory::create([
             'nama' => 'Pengujian & Analisis',
+            'slug' => Str::slug('Pengujian & Analisis'),
             'deskripsi' => 'Layanan pengujian laboratorium mutakhir dan analisis sampel.'
         ]);
 
         $konsultasi = ServiceCategory::create([
             'nama' => 'Konsultasi',
+            'slug' => Str::slug('Konsultasi'),
             'deskripsi' => 'Layanan konsultasi teknis dan manajemen usaha secara berkelanjutan.'
         ]);
 
         $pelatihan = ServiceCategory::create([
             'nama' => 'Pelatihan',
+            'slug' => Str::slug('Pelatihan'),
             'deskripsi' => 'Layanan pelatihan dan sertifikasi kompetensi personel profesional.'
         ]);
 
