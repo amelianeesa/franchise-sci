@@ -139,7 +139,7 @@
                         <div class="font-semibold text-slate-800">{{ $order->customer->name ?? 'Pelanggan' }}</div>
                         <div class="text-[10px] text-slate-400">{{ $order->customer->email ?? '' }}</div>
                     </td>
-                    <td>{{ $order->produk ?? $order->layanan }}</td>
+                    <td>{{ $order->product->nama_produk ?? '-' }}</td>
                     <td>
                         <span class="font-medium text-slate-700">{{ $order->branch->nama_cabang ?? '-' }}</span>
                     </td>

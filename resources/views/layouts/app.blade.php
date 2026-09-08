@@ -43,7 +43,7 @@
                     </div>
 
                     <nav class="px-3 space-y-1">
-                        <a href="#" 
+                        <a href="{{ route('admin.dashboard') }}" 
                             class="flex items-center gap-3 px-3 py-2.5 rounded-md font-medium text-xs transition
                             {{ request()->routeIs('admin.dashboard') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
@@ -55,6 +55,13 @@
                             {{ request()->routeIs('admin.order-masuk') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
                             <span>Order Masuk</span>
+                        </a>
+
+                        <a href="{{ route('admin.products.index') }}" 
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-md font-medium text-xs transition
+                            {{ request()->routeIs('admin.products.*') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                            <span>Kelola Layanan</span>
                         </a>
 
                         <a href="#" 
