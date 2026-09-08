@@ -94,7 +94,13 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs mt-4">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs mt-4">
+                    <div>
+                        <span class="text-slate-400 block text-[10px]">Tipe / Jenis Layanan</span>
+                        <span class="font-semibold text-[#0B2A4A]">
+                            {{ $order->product->kategori->nama_kategori ?? $order->product->kategori ?? $order->product->tipe_layanan ?? 'Pengujian & Inspeksi' }}
+                        </span>
+                    </div>
                     <div>
                         <span class="text-slate-400 block text-[10px]">Layanan / Produk</span>
                         <span class="font-semibold text-slate-700">{{ $order->product->nama_produk ?? '-' }}</span>
