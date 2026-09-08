@@ -10,23 +10,32 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function create()
-    {
-        $categories = ServiceCategory::where('is_active', true)
-            ->with(['products' => function ($query) {
+public function create()
+{
+    $categories = ServiceCategory::where('is_active', true)
+        ->with([
+            'products' => function ($query) {
                 $query->where('is_active', true);
-            }])
-            ->get();
+            }
+        ])
+        ->get();
 
-        $branches = Branch::where('is_active', true)->get();
-        $provinsiList = $branches->pluck('provinsi')->unique()->filter()->values();
+    $branches = Branch::where('is_active', true)->get();
 
-        return view('order.create', [
-            'categories' => $categories,
-            'branchesJson' => $branches,
-            'provinsiList' => $provinsiList,
-        ]);
-    }
+    $wilayahList = [
+        'Jawa & Bali' => ['Jawa Tengah', 'DKI Jakarta', 'Jawa Barat', 'Banten', 'Jawa Timur', 'DI Yogyakarta', 'Bali'],
+        'Sumatera' => ['Aceh', 'Sumatera Utara', 'Sumatera Barat', 'Riau', 'Kepulauan Riau', 'Jambi', 'Bengkulu', 'Sumatera Selatan', 'Kepulauan Bangka Belitung', 'Lampung'],
+        'Kalimantan' => ['Kalimantan Barat', 'Kalimantan Tengah', 'Kalimantan Selatan', 'Kalimantan Timur', 'Kalimantan Utara'],
+        'Sulawesi & Maluku' => ['Sulawesi Utara', 'Sulawesi Tengah', 'Sulawesi Selatan', 'Sulawesi Tenggara', 'Gorontalo', 'Sulawesi Barat', 'Maluku', 'Maluku Utara'],
+        'Papua & Nusa Tenggara' => ['Nusa Tenggara Barat', 'Nusa Tenggara Timur', 'Papua', 'Papua Barat', 'Papua Selatan', 'Papua Tengah', 'Papua Pegunungan', 'Papua Barat Daya'],
+    ];
+
+    return view('order.create', [
+        'categories' => $categories,
+        'branchesJson' => $branches,
+        'wilayahList' => $wilayahList,
+    ]);
+}
 
     public function store(Request $request)
     {
