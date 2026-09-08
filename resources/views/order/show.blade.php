@@ -10,9 +10,6 @@
             <p class="font-mono-code text-xs text-slate-400 mb-1">DETAIL ORDER</p>
             <h1 class="text-2xl font-semibold text-[#0B2A4A] font-mono-code">{{ $order->kode_order }}</h1>
         </div>
-        <a href="{{ route('order.index') }}" class="text-xs font-semibold text-slate-600 hover:text-slate-800 transition">
-            ← Kembali ke daftar order
-        </a>
     </div>
 
     @if (session('success'))

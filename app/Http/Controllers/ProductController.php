@@ -72,8 +72,7 @@ class ProductController extends Controller
             'harga_dasar' => $request->harga_dasar,
             'satuan' => $request->satuan,
         ]);
-
-        return redirect()->route('admin.products.index')->with('success', 'Layanan berhasil diperbarui.');
+        return redirect()->route('admin.product_index')->with('success', 'Layanan berhasil ditambahkan.');
     }
 
     // Menghapus data layanan

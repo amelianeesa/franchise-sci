@@ -8,7 +8,7 @@
         <h1 class="text-xl font-bold text-[#0B2A4A]">Manajemen Layanan & Produk</h1>
         <p class="text-xs text-slate-500 mt-1">Kelola daftar layanan, deskripsi, dan harga dasar yang akan tampil pada pilihan order pelanggan.</p>
     </div>
-    <a href="{{ route('admin.products.create') }}" class="px-4 py-2 bg-[#0B2A4A] hover:bg-[#081e36] text-white rounded-lg text-xs font-semibold shadow-sm transition">
+    <a href="{{ route('admin.product_create') }}" class="px-4 py-2 bg-[#0B2A4A] hover:bg-[#081e36] text-white rounded-lg text-xs font-semibold shadow-sm transition">
         + Tambah Layanan Baru
     </a>
 </div>
@@ -47,10 +47,10 @@
                         <td class="p-3 text-slate-600">{{ $product->satuan ?? '-' }}</td>
                         <td class="p-3 text-center">
                             <div class="flex items-center justify-center gap-2">
-                                <a href="{{ route('admin.products.edit', $product->id) }}" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-white rounded text-[11px] font-medium transition">
+                                <a href="{{ route('admin.product_edit', $product->id) }}" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-white rounded text-[11px] font-medium transition">
                                     Edit
                                 </a>
-                                <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus layanan ini?')">
+                                <form action="{{ route('admin.product_destroy', $product->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus layanan ini?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-[11px] font-medium transition">

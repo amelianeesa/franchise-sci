@@ -26,6 +26,11 @@ class Order extends Model
         return $this->belongsTo(User::class, 'customer_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'customer_id');
+    }
+
     public function branch()
     {
         return $this->belongsTo(Branch::class);
@@ -36,10 +41,11 @@ class Order extends Model
         return $this->belongsTo(Product::class);
     }
 
-    /**
-     * Urutan tahap untuk ditampilkan di halaman lacak order.
-     * Menyesuaikan enum status di kolom `orders.status`.
-     */
+    public function trackingHistories()
+    {
+        return $this->hasMany(OrderHistory::class);
+    }
+
     public static function trackingSteps(): array
     {
         return [

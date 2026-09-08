@@ -8,6 +8,11 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\PusatController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+
+
+use App\Http\Controllers\LacakController;
+
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 
@@ -20,7 +25,9 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi');
 
-// Role: Pelanggan (punya kamu)
+Route::get('/lacak', [LacakController::class, 'index'])->name('lacak.index');
+Route::post('/lacak', [LacakController::class, 'search'])->name('lacak.search');
+
 Route::middleware(['auth', 'role:pelanggan'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -30,24 +37,29 @@ Route::middleware(['auth', 'role:pelanggan'])->group(function () {
     Route::get('/order/{order}', [OrderController::class, 'show'])->name('order.show');
 });
 
-// Role: Admin (dikerjakan Anggota 2) — sengaja disiapkan di sini biar
-// tidak bentrok saat tim gabungkan branch nanti
 Route::middleware(['auth', 'role:admin_pusat,admin_cabang'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [PusatController::class, 'index'])->name('admin.dashboard');
     
-    Route::get('/order_masuk', [PusatController::class, 'orderMasuk'])->name('admin.order-masuk');
+    Route::get('/order_masuk', [PusatController::class, 'orderMasuk'])->name('admin.order_masuk');
     Route::post('/orders/{id}/approve', [PusatController::class, 'approve'])->name('admin.orders.approve');
     Route::post('/orders/{id}/reject', [PusatController::class, 'reject'])->name('admin.orders.reject');
 
     // CRUD Manajemen Layanan / Produk oleh Admin
-    Route::get('/products', [ProductController::class, 'index'])->name('admin.products.index');
-    Route::get('/products/create', [ProductController::class, 'create'])->name('admin.products.create');
-    Route::post('/products', [ProductController::class, 'store'])->name('admin.products.store');
-    Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
-    Route::put('/products/{id}', [ProductController::class, 'update'])->name('admin.products.update');
-    Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+    Route::get('/products', [ProductController::class, 'index'])->name('admin.product_index');
+    Route::get('/products/create', [ProductController::class, 'create'])->name('admin.product_create');
+    Route::post('/products', [ProductController::class, 'store'])->name('admin.product_store');
+    Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('admin.product_edit');
+    Route::put('/products/{id}', [ProductController::class, 'update'])->name('admin.product_update');
+    Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('admin.product_destroy');
+
+    // Kelola Kategori
+    Route::get('/categories', [CategoryController::class, 'index'])->name('admin.category_index');
+    Route::get('/categories/create', [CategoryController::class, 'create'])->name('admin.category_create');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('admin.category_store');
+    Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('admin.category_edit');
+    Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('admin.category_update');
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('admin.category_destroy');
 });
 
-// Role: Tenaga Ahli (dikerjakan Anggota 3)
 Route::middleware(['auth', 'role:tenaga_ahli'])->prefix('mitra')->group(function () {
 });
