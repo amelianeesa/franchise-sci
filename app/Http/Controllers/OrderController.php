@@ -29,11 +29,13 @@ class OrderController extends Controller
             'Sulawesi & Maluku' => ['Sulawesi Utara', 'Sulawesi Tengah', 'Sulawesi Selatan', 'Sulawesi Tenggara', 'Gorontalo', 'Sulawesi Barat', 'Maluku', 'Maluku Utara'],
             'Papua & Nusa Tenggara' => ['Nusa Tenggara Barat', 'Nusa Tenggara Timur', 'Papua', 'Papua Barat', 'Papua Selatan', 'Papua Tengah', 'Papua Pegunungan', 'Papua Barat Daya'],
         ];
+        $provinsiList = collect($wilayahList)->flatten()->all();
 
         return view('order.create', [
             'categories' => $categories,
             'branchesJson' => $branches,
             'wilayahList' => $wilayahList,
+            'provinsiList' => $provinsiList,
         ]);
     }
 
@@ -80,10 +82,13 @@ class OrderController extends Controller
             'Papua & Nusa Tenggara' => ['Nusa Tenggara Barat', 'Nusa Tenggara Timur', 'Papua', 'Papua Barat', 'Papua Selatan', 'Papua Tengah', 'Papua Pegunungan', 'Papua Barat Daya'],
         ];
 
+        $provinsiList = collect($wilayahList)->flatten()->all();
+
         return view('order.index', [
             'categories' => $categories,
             'branchesJson' => $branches,
             'wilayahList' => $wilayahList,
+            'provinsiList' => $provinsiList,
         ]);
     }
 
