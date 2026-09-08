@@ -15,7 +15,8 @@ class OrderController extends Controller
         $categories = ServiceCategory::where('is_active', true)
             ->with([
                 'products' => function ($query) {
-                    $query->where('is_active', true);
+                    $query->where('is_active', true)
+                        ->select('id', 'service_category_id', 'nama_produk', 'deskripsi', 'harga_dasar', 'satuan');
                 }
             ])
             ->get();
@@ -29,13 +30,11 @@ class OrderController extends Controller
             'Sulawesi & Maluku' => ['Sulawesi Utara', 'Sulawesi Tengah', 'Sulawesi Selatan', 'Sulawesi Tenggara', 'Gorontalo', 'Sulawesi Barat', 'Maluku', 'Maluku Utara'],
             'Papua & Nusa Tenggara' => ['Nusa Tenggara Barat', 'Nusa Tenggara Timur', 'Papua', 'Papua Barat', 'Papua Selatan', 'Papua Tengah', 'Papua Pegunungan', 'Papua Barat Daya'],
         ];
-        $provinsiList = collect($wilayahList)->flatten()->all();
 
         return view('order.create', [
             'categories' => $categories,
             'branchesJson' => $branches,
             'wilayahList' => $wilayahList,
-            'provinsiList' => $provinsiList,
         ]);
     }
 
@@ -64,32 +63,12 @@ class OrderController extends Controller
 
     public function index()
     {
-        $categories = ServiceCategory::where('is_active', true)
-            ->with([
-                'products' => function ($query) {
-                    $query->where('is_active', true);
-                }
-            ])
-            ->get();
+        $orders = Order::with(['branch', 'product'])
+            ->where('customer_id', Auth::id())
+            ->latest()
+            ->paginate(10);
 
-        $branches = Branch::where('is_active', true)->get();
-
-        $wilayahList = [
-            'Jawa & Bali' => ['Jawa Tengah', 'DKI Jakarta', 'Jawa Barat', 'Banten', 'Jawa Timur', 'DI Yogyakarta', 'Bali'],
-            'Sumatera' => ['Aceh', 'Sumatera Utara', 'Sumatera Barat', 'Riau', 'Kepulauan Riau', 'Jambi', 'Bengkulu', 'Sumatera Selatan', 'Kepulauan Bangka Belitung', 'Lampung'],
-            'Kalimantan' => ['Kalimantan Barat', 'Kalimantan Tengah', 'Kalimantan Selatan', 'Kalimantan Timur', 'Kalimantan Utara'],
-            'Sulawesi & Maluku' => ['Sulawesi Utara', 'Sulawesi Tengah', 'Sulawesi Selatan', 'Sulawesi Tenggara', 'Gorontalo', 'Sulawesi Barat', 'Maluku', 'Maluku Utara'],
-            'Papua & Nusa Tenggara' => ['Nusa Tenggara Barat', 'Nusa Tenggara Timur', 'Papua', 'Papua Barat', 'Papua Selatan', 'Papua Tengah', 'Papua Pegunungan', 'Papua Barat Daya'],
-        ];
-
-        $provinsiList = collect($wilayahList)->flatten()->all();
-
-        return view('order.index', [
-            'categories' => $categories,
-            'branchesJson' => $branches,
-            'wilayahList' => $wilayahList,
-            'provinsiList' => $provinsiList,
-        ]);
+        return view('order.index', compact('orders'));
     }
 
     public function show(Order $order)
