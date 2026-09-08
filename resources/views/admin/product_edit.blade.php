@@ -9,7 +9,7 @@
 </div>
 
 <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 max-w-2xl">
-    <form action="{{ route('admin.products.update', $product->id) }}" method="POST">
+    <form action="{{ route('admin.product_update', $product->id) }}" method="POST">
         @csrf
         @method('PUT')
         
@@ -44,7 +44,7 @@
         </div>
 
         <div class="flex items-center justify-end gap-3">
-            <a href="{{ route('admin.products.index') }}" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition">Batal</a>
+            <a href="{{ route('admin.product_index') }}" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition">Batal</a>
             <button type="submit" class="px-4 py-2 bg-[#0B2A4A] hover:bg-[#081e36] text-white rounded-lg text-xs font-semibold transition">Perbarui Layanan</button>
         </div>
     </form>
