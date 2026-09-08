@@ -33,7 +33,7 @@ class CategoryController extends Controller
             'is_active' => 1,
         ]);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Kategori layanan berhasil ditambahkan.');
+        return redirect()->route('admin.category_index')->with('success', 'Kategori layanan berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -57,7 +57,7 @@ class CategoryController extends Controller
             'deskripsi' => $request->deskripsi,
         ]);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Kategori layanan berhasil diperbarui.');
+        return redirect()->route('admin.category_index')->with('success', 'Kategori layanan berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -65,6 +65,6 @@ class CategoryController extends Controller
         $category = ServiceCategory::findOrFail($id);
         $category->delete();
 
-        return redirect()->route('admin.categories.index')->with('success', 'Kategori layanan berhasil dihapus.');
+        return redirect()->route('admin.category_index')->with('success', 'Kategori layanan berhasil dihapus.');
     }
 }
