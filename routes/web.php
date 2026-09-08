@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VerifikasiController;
+use App\Http\Controllers\PusatController;
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 
@@ -31,6 +32,9 @@ Route::middleware(['auth', 'role:pelanggan'])->group(function () {
 // Role: Admin (dikerjakan Anggota 2) — sengaja disiapkan di sini biar
 // tidak bentrok saat tim gabungkan branch nanti
 Route::middleware(['auth', 'role:admin_pusat,admin_cabang'])->prefix('admin')->group(function () {
+    Route::get('/order-masuk', [PusatController::class, 'orderMasuk'])->name('admin.order-masuk');
+    Route::post('/orders/{id}/approve', [PusatController::class, 'approve'])->name('admin.orders.approve');
+    Route::post('/orders/{id}/reject', [PusatController::class, 'reject'])->name('admin.orders.reject');
 });
 
 // Role: Tenaga Ahli (dikerjakan Anggota 3)

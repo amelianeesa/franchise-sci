@@ -1,5 +1,4 @@
 <?php
-// app/Models/Branch.php
 
 namespace App\Models;
 
@@ -7,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Branch extends Model
 {
+    protected $table = 'branches';
     protected $fillable = [
         'kode_cabang', 'nama_cabang', 'provinsi', 'kota',
         'alamat', 'latitude', 'longitude', 'telepon', 'is_active',
@@ -14,6 +14,10 @@ class Branch extends Model
 
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, 'branch_id', 'id');
+    }
+    public function virtualAccounts()
+    {
+        return $this->hasMany(VirtualAccount::class, 'branch_id', 'id');
     }
 }
