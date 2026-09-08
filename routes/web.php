@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VerifikasiController;
+use App\Http\Controllers\LacakController;
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 
@@ -18,7 +19,9 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi');
 
-// Role: Pelanggan (punya kamu)
+Route::get('/lacak', [LacakController::class, 'index'])->name('lacak.index');
+Route::post('/lacak', [LacakController::class, 'search'])->name('lacak.search');
+
 Route::middleware(['auth', 'role:pelanggan'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -28,11 +31,8 @@ Route::middleware(['auth', 'role:pelanggan'])->group(function () {
     Route::get('/order/{order}', [OrderController::class, 'show'])->name('order.show');
 });
 
-// Role: Admin (dikerjakan Anggota 2) — sengaja disiapkan di sini biar
-// tidak bentrok saat tim gabungkan branch nanti
 Route::middleware(['auth', 'role:admin_pusat,admin_cabang'])->prefix('admin')->group(function () {
 });
 
-// Role: Tenaga Ahli (dikerjakan Anggota 3)
 Route::middleware(['auth', 'role:tenaga_ahli'])->prefix('mitra')->group(function () {
 });

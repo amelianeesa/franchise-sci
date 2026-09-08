@@ -31,8 +31,19 @@
 
     <div id="step2" class="hidden space-y-4">
         <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-            <h2 class="text-sm font-bold text-[#0B2A4A] mb-4 pb-3 border-b border-slate-100" id="selectedCategoryTitle"></h2>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
+                <h2 class="text-sm font-bold text-[#0B2A4A]" id="selectedCategoryTitle"></h2>
+                <div class="relative w-full sm:w-64">
+                    <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 10.5A6.5 6.5 0 114 10.5a6.5 6.5 0 0113 0z"/>
+                    </svg>
+                    <input type="text" id="productSearch" placeholder="Cari layanan..."
+                        class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:bg-white focus:border-[#0B2A4A] transition">
+                </div>
+            </div>
+            <p class="text-[11px] text-slate-400 mb-3" id="productCountLabel"></p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="productList"></div>
+            <p class="hidden text-xs text-slate-400 italic text-center py-6" id="noResultLabel">Tidak ada layanan yang cocok dengan pencarian Anda.</p>
         </div>
     </div>
 
@@ -61,7 +72,7 @@
 
                 <div class="space-y-1.5">
                     <div class="flex items-center justify-between">
-                        <label class="text-xs font-semibold text-slate-700" id="branchSectionLabel">Cabang Terdekat</label>
+                        <label class="text-xs font-semibold text-slate-700" id="branchSectionLabel">Cabang Penanggung Jawab</label>
                         <span class="hidden text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full" id="fallbackBadge">Rekomendasi Terdekat</span>
                     </div>
                     <div id="branchOptions" class="space-y-2">
@@ -95,6 +106,7 @@
 
 <script>
     let CURRENT_STEP = 1;
+    let CURRENT_CATEGORY = null;
 
     const CATEGORIES = @json($categories);
     const BRANCHES = @json($branchesJson);
@@ -176,36 +188,68 @@
     }
 
     function selectCategory(categoryId) {
-        const category = CATEGORIES.find(c => c.id === categoryId);
-        const categoryName = category.nama ?? category.name ?? category.title;
+        CURRENT_CATEGORY = CATEGORIES.find(c => c.id === categoryId);
+        const categoryName = CURRENT_CATEGORY.nama ?? CURRENT_CATEGORY.name ?? CURRENT_CATEGORY.title;
         document.getElementById('selectedCategoryTitle').textContent = `Daftar Layanan — ${categoryName}`;
+        document.getElementById('productSearch').value = '';
 
-        const list = document.getElementById('productList');
-        const products = category.products || [];
-
-        if (products.length === 0) {
-            list.innerHTML = `<p class="col-span-2 text-xs text-slate-400 italic py-2">Belum ada paket produk aktif pada kategori ini.</p>`;
-        } else {
-            list.innerHTML = products.map(p => {
-                const pName = p.nama_produk ?? p.nama ?? p.name ?? p.title;
-                const pDesc = p.deskripsi ?? p.description;
-                const pSatuan = p.satuan ?? p.unit;
-
-                return `
-                    <div onclick="selectProduct(${p.id}, '${pName.replace(/'/g, "\\'")}')"
-                        class="p-4 border border-slate-200 hover:border-[#0B2A4A] bg-white rounded-lg cursor-pointer transition flex items-center justify-between group">
-                        <div>
-                            <p class="text-xs font-bold text-slate-800 group-hover:text-[#0B2A4A] transition-colors">${pName}</p>
-                            ${pDesc ? `<p class="text-[11px] text-slate-500 mt-0.5 line-clamp-2">${pDesc}</p>` : ''}
-                        </div>
-                        ${pSatuan ? `<span class="text-[10px] font-semibold bg-slate-100 text-slate-600 px-2 py-1 rounded shrink-0 ml-3">${pSatuan}</span>` : ''}
-                    </div>
-                `;
-            }).join('');
-        }
-
+        renderProductList('');
         goToStep(2);
     }
+
+    function renderProductList(keyword) {
+        const list = document.getElementById('productList');
+        const countLabel = document.getElementById('productCountLabel');
+        const noResultLabel = document.getElementById('noResultLabel');
+
+        const allProducts = CURRENT_CATEGORY.products || [];
+        const query = keyword.trim().toLowerCase();
+
+        const filtered = query
+            ? allProducts.filter(p => (p.nama_produk ?? p.nama ?? p.name ?? p.title ?? '').toLowerCase().includes(query))
+            : allProducts;
+
+        countLabel.textContent = query
+            ? `Menampilkan ${filtered.length} dari ${allProducts.length} layanan`
+            : `${allProducts.length} layanan tersedia`;
+
+        if (allProducts.length === 0) {
+            list.innerHTML = '';
+            noResultLabel.textContent = 'Belum ada paket produk aktif pada kategori ini.';
+            noResultLabel.classList.remove('hidden');
+            return;
+        }
+
+        if (filtered.length === 0) {
+            list.innerHTML = '';
+            noResultLabel.textContent = 'Tidak ada layanan yang cocok dengan pencarian Anda.';
+            noResultLabel.classList.remove('hidden');
+            return;
+        }
+
+        noResultLabel.classList.add('hidden');
+
+        list.innerHTML = filtered.map(p => {
+            const pName = p.nama_produk ?? p.nama ?? p.name ?? p.title;
+            const pDesc = p.deskripsi ?? p.description;
+            const pSatuan = p.satuan ?? p.unit;
+
+            return `
+                <div onclick="selectProduct(${p.id}, '${pName.replace(/'/g, "\\'")}')"
+                    class="p-4 border border-slate-200 hover:border-[#0B2A4A] bg-white rounded-lg cursor-pointer transition flex items-center justify-between group">
+                    <div>
+                        <p class="text-xs font-bold text-slate-800 group-hover:text-[#0B2A4A] transition-colors">${pName}</p>
+                        ${pDesc ? `<p class="text-[11px] text-slate-500 mt-0.5 line-clamp-2">${pDesc}</p>` : ''}
+                    </div>
+                    ${pSatuan ? `<span class="text-[10px] font-semibold bg-slate-100 text-slate-600 px-2 py-1 rounded shrink-0 ml-3">${pSatuan}</span>` : ''}
+                </div>
+            `;
+        }).join('');
+    }
+
+    document.getElementById('productSearch').addEventListener('input', function () {
+        renderProductList(this.value);
+    });
 
     function selectProduct(productId, productName) {
         document.getElementById('productIdInput').value = productId;
@@ -213,12 +257,6 @@
         goToStep(3);
     }
 
-    /**
-     * Cabang selalu tersedia untuk semua wilayah:
-     * 1. Kalau wilayah yang dipilih punya cabang di salah satu provinsinya -> tampilkan itu.
-     * 2. Kalau tidak ada sama sekali -> fallback ke SEMUA cabang aktif se-Indonesia,
-     *    diurutkan dari yang terdekat (kalau lokasi GPS diizinkan).
-     */
     function renderBranchOptions(wilayah) {
         const container = document.getElementById('branchOptions');
         const hint = document.getElementById('locationHint');
@@ -301,12 +339,12 @@
 
         if (isFallback) {
             hint.innerHTML = USER_COORDS
-                ? '<span></span><span>Wilayah Anda belum memiliki cabang resmi. Cabang di atas diurutkan dari yang terdekat berdasarkan lokasi Anda saat ini.</span>'
-                : '<span></span><span>Wilayah Anda belum memiliki cabang resmi. Izinkan akses lokasi browser agar sistem dapat mengurutkan cabang dari yang terdekat.</span>';
+                ? '<span>📍</span><span>Wilayah Anda belum memiliki cabang resmi. Cabang di atas diurutkan dari yang terdekat berdasarkan lokasi Anda saat ini.</span>'
+                : '<span>💡</span><span>Wilayah Anda belum memiliki cabang resmi. Izinkan akses lokasi browser agar sistem dapat mengurutkan cabang dari yang terdekat.</span>';
         } else {
             hint.innerHTML = USER_COORDS
-                ? '<span></span><span>Jarak dihitung otomatis berdasarkan lokasi Anda saat ini.</span>'
-                : '<span></span><span>Izinkan akses lokasi browser untuk menampilkan estimasi jarak.</span>';
+                ? '<span>📍</span><span>Jarak dihitung otomatis berdasarkan lokasi Anda saat ini.</span>'
+                : '<span>💡</span><span>Izinkan akses lokasi browser untuk menampilkan estimasi jarak.</span>';
         }
     }
 
