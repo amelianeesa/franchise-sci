@@ -12,10 +12,13 @@ class OrderController extends Controller
 {
     public function create()
     {
-        // Ambil service_categories beserta produknya
-        $categories = ServiceCategory::with('products')->get();
+        $categories = ServiceCategory::where('is_active', true)
+            ->with(['products' => function ($query) {
+                $query->where('is_active', true);
+            }])
+            ->get();
 
-        $branches = Branch::all();
+        $branches = Branch::where('is_active', true)->get();
         $provinsiList = $branches->pluck('provinsi')->unique()->filter()->values();
 
         return view('order.create', [
@@ -23,18 +26,6 @@ class OrderController extends Controller
             'branchesJson' => $branches,
             'provinsiList' => $provinsiList,
         ]);
-    }
-
-    private function categoryIcon(string $slug): string
-    {
-        return match ($slug) {
-            'pengujian-analisis' => '🧪',
-            'inspeksi-audit' => '🔍',
-            'sertifikasi' => '📜',
-            'konsultasi' => '💼',
-            'pelatihan' => '🎓',
-            default => '📋',
-        };
     }
 
     public function store(Request $request)
@@ -67,7 +58,9 @@ class OrderController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('order.index', compact('orders'));
+        $provinsiList = Branch::pluck('provinsi')->unique()->filter()->values();
+
+        return view('order.index', compact('orders', 'provinsiList'));
     }
 
     public function show(Order $order)
@@ -81,9 +74,6 @@ class OrderController extends Controller
         return view('order.show', compact('order'));
     }
 
-    /**
-     * Format: ORD/{kode_cabang}/{tahun}/{bulan}/{nomor_urut}
-     */
     private function generateKodeOrder(Branch $branch): string
     {
         $tahun = now()->format('Y');

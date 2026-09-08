@@ -33,7 +33,7 @@
 
                 <div class="space-y-1">
                     <label for="email" class="text-[11px] font-semibold text-slate-700">Alamat Email</label>
-                    <input type="email" id="email" name="email" value="{{ old('email') }}" required placeholder="nama@perusahaan.com"
+                    <input type="email" id="email" name="email" value="{{ old('email') }}" required placeholder="nama@gmail.com"
                         class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:bg-white focus:border-[#003366] focus:ring-1 focus:ring-[#003366] transition">
                 </div>
 

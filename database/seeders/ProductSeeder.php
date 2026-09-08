@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -10,13 +11,11 @@ class ProductSeeder extends Seeder
 {
     public function run()
     {
-        // Truncate/kosongkan tabel terlebih dahulu
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Product::truncate();
         ServiceCategory::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // 1. BUAT KATEGORI UTAMA
         $sertifikasi = ServiceCategory::create([
             'nama' => 'Sertifikasi',
             'deskripsi' => 'Layanan sertifikasi produk, sistem manajemen, serta personel.'
@@ -42,27 +41,27 @@ class ProductSeeder extends Seeder
             'deskripsi' => 'Layanan pelatihan dan sertifikasi kompetensi personel profesional.'
         ]);
 
-        // 2. DATA PRODUK SERTIFIKASI
         $produkSertifikasi = [
-            'Asset Management System – ISO 55001', 'Audit Air', 'Audit Energi', 
-            'Corporate Social Responsibility', 'Environmental Baseline Assessment', 
-            'Green Building EDGE (IFC)', 'Good Distribution Practices – Cara Distribusi yang Baik', 
-            'Green Building Greenship', 'ISO 13485 – Sistem Manajemen Mutu Alat Kesehatan', 
-            'ISO 22000 – Sistem Manajemen Keamanan Pangan', 'ISO 14001 – Sistem Manajemen Lingkungan', 
-            'ISO 45001 – Sistem Manajemen K3', 'ISO 9001 – Sistem Manajemen Mutu', 
-            'ISO/IEC 27001 – Sistem Manajemen Keamanan Informasi', 'Sertifikasi Halal', 
+            'Asset Management System – ISO 55001', 'Audit Air', 'Audit Energi',
+            'Corporate Social Responsibility', 'Environmental Baseline Assessment',
+            'Green Building EDGE (IFC)', 'Good Distribution Practices – Cara Distribusi yang Baik',
+            'Green Building Greenship', 'ISO 13485 – Sistem Manajemen Mutu Alat Kesehatan',
+            'ISO 22000 – Sistem Manajemen Keamanan Pangan', 'ISO 14001 – Sistem Manajemen Lingkungan',
+            'ISO 45001 – Sistem Manajemen K3', 'ISO 9001 – Sistem Manajemen Mutu',
+            'ISO/IEC 27001 – Sistem Manajemen Keamanan Informasi', 'Sertifikasi Halal',
             'Sertifikasi Industri Hijau', 'Sertifikasi Produk (SNI)', 'Sertifikasi SMK3'
         ];
         foreach ($produkSertifikasi as $item) {
             Product::create([
                 'service_category_id' => $sertifikasi->id,
-                'nama' => $item,
+                'nama_produk' => $item,
                 'deskripsi' => 'Layanan Sertifikasi ' . $item . ' PT SUCOFINDO',
-                'satuan' => 'Paket'
+                'satuan' => 'Paket',
+                'harga_dasar' => 0,
+                'is_active' => true,
             ]);
         }
 
-        // 3. DATA PRODUK KONSULTASI (Gambar 1)
         $produkKonsultasi = [
             'Enterprise Solutions Human Resources', 'Environmental and Social Impact Assessment (ESIA)',
             'Environmental, Social, and Governance (ESG)', 'European Union Deforestation Regulation (EUDR)',
@@ -80,13 +79,14 @@ class ProductSeeder extends Seeder
         foreach ($produkKonsultasi as $item) {
             Product::create([
                 'service_category_id' => $konsultasi->id,
-                'nama' => $item,
+                'nama_produk' => $item,
                 'deskripsi' => 'Layanan Konsultasi ' . $item . ' PT SUCOFINDO',
-                'satuan' => 'Dokumen / Proyek'
+                'satuan' => 'Dokumen / Proyek',
+                'harga_dasar' => 0,
+                'is_active' => true,
             ]);
         }
 
-        // 4. DATA PRODUK INSPEKSI DAN AUDIT (Gambar 2)
         $produkInspeksi = [
             'Assurer Laporan Keberlanjutan Perusahaan', 'Audit Energi Industri dan Bangunan Gedung',
             'Audit Kapabilitas dan Kapasitas Pabrik', 'Audit Lingkungan Hidup',
@@ -115,13 +115,14 @@ class ProductSeeder extends Seeder
         foreach ($produkInspeksi as $item) {
             Product::create([
                 'service_category_id' => $inspeksi->id,
-                'nama' => $item,
+                'nama_produk' => $item,
                 'deskripsi' => 'Layanan Inspeksi & Audit ' . $item . ' PT SUCOFINDO',
-                'satuan' => 'Laporan / Unit'
+                'satuan' => 'Laporan / Unit',
+                'harga_dasar' => 0,
+                'is_active' => true,
             ]);
         }
 
-        // 5. DATA PRODUK PELATIHAN (Gambar 3)
         $produkPelatihan = [
             'Bimbingan Teknis dan Pelatihan TIC Pertambangan Mineral',
             'Bimbingan Teknis Pengembangan, Penyelenggaraan dan Pembangunan Telematika Terpadu di Sektor Pemerintahan Terkait Investasi',
@@ -134,13 +135,14 @@ class ProductSeeder extends Seeder
         foreach ($produkPelatihan as $item) {
             Product::create([
                 'service_category_id' => $pelatihan->id,
-                'nama' => $item,
+                'nama_produk' => $item,
                 'deskripsi' => 'Layanan Pelatihan ' . $item . ' PT SUCOFINDO',
-                'satuan' => 'Peserta / Sesi'
+                'satuan' => 'Peserta / Sesi',
+                'harga_dasar' => 0,
+                'is_active' => true,
             ]);
         }
 
-        // 6. DATA PRODUK PENGUJIANK DAN ANALISIS (Daftar Teks)
         $produkPengujian = [
             'Analisis Coal Bed Methane', 'Analisis dan Sertifikasi Kelayakan, Keamanan, Komposisi serta Kehalalan Pangan',
             'Analisis dan Sertifikasi Kosmetik, Obat, dan Obat Tradisional', 'Analisis dan Sertifikasi Mainan, Tekstil, Kemasan, Keramik, Mebel, Karet, Plastik, serta Produk Konsumen Lainnya',
@@ -173,15 +175,16 @@ class ProductSeeder extends Seeder
             'Pengujian Tisu dan Kapas untuk Kesehatan', 'Pengujian Udara Ambien Lingkungan'
         ];
 
-        // Filter duplikat nama produk pengujian
         $produkPengujianUnique = array_unique($produkPengujian);
 
         foreach ($produkPengujianUnique as $item) {
             Product::create([
                 'service_category_id' => $pengujian->id,
-                'nama' => $item,
+                'nama_produk' => $item,
                 'deskripsi' => 'Layanan Pengujian & Analisis ' . $item . ' PT SUCOFINDO',
-                'satuan' => 'Sampel / Pengujian'
+                'satuan' => 'Sampel / Pengujian',
+                'harga_dasar' => 0,
+                'is_active' => true,
             ]);
         }
     }
