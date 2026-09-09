@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Dashboard - SILAFCO Sucofindo')</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        body { 
-            font-family: 'IBM Plex Sans', sans-serif; 
-        }
-        .font-mono-code { 
-            font-family: 'IBM Plex Mono', monospace; 
-        }
-    </style>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; }
+    h1, h2, h3, h4, h5, h6 { font-weight: 700; }
+    .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+</style>
 </head>
 <body class="bg-slate-100/80 text-slate-800 antialiased min-h-screen flex">
 

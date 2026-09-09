@@ -34,18 +34,18 @@ class PusatController extends Controller
         return redirect()->route('admin.order_masuk')->with('success', 'Order berhasil disetujui dan PO diterbitkan.');
     }
 
-    public function reject(Request $request, $id)
-    {
-        $request->validate([
-            'alasan_penolakan' => 'required|string|max:500'
-        ]);
+public function reject(Request $request, $id)
+{
+    $request->validate([
+        'alasan_penolakan' => 'required|string|max:500'
+    ]);
 
-        $order = Order::findOrFail($id);
-        $order->update([
-            'status' => 'ditolak',
-            'catatan_pelanggan' => 'Ditolak Admin: ' . $request->alasan_penolakan
-        ]);
+    $order = Order::findOrFail($id);
+    $order->update([
+        'status' => 'ditolak',
+        'alasan_penolakan' => $request->alasan_penolakan,
+    ]);
 
-        return redirect()->route('admin.order_masuk')->with('error', 'Order berhasil ditolak dengan catatan');
-    }
+    return redirect()->route('admin.order_masuk')->with('error', 'Order berhasil ditolak dengan catatan');
+}
 }

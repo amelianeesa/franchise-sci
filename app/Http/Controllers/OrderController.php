@@ -77,7 +77,7 @@ class OrderController extends Controller
             abort(403);
         }
 
-        $order->load(['branch', 'product']);
+        $order->load(['branch', 'product.category']);
 
         return view('order.show', compact('order'));
     }
