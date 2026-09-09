@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Dashboard - SILAFCO Sucofindo')</title>
@@ -52,37 +53,52 @@
 
                         <a href="{{ route('admin.order_masuk') }}" 
                             class="flex items-center gap-3 px-3 py-2.5 rounded-md font-medium text-xs transition
-                            {{ request()->routeIs('admin.order-masuk') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
+                            {{ request()->routeIs('admin.order_masuk') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
                             <span>Order Masuk</span>
                         </a>
 
                         <a href="{{ route('admin.product_index') }}" 
                             class="flex items-center gap-3 px-3 py-2.5 rounded-md font-medium text-xs transition
-                            {{ request()->routeIs('admin.products.*') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
+                            {{ request()->routeIs('admin.product_index') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                             <span>Kelola Layanan</span>
                         </a>
 
                         <a href="{{ route('admin.category_index') }}" 
                             class="flex items-center gap-3 px-3 py-2.5 rounded-md font-medium text-xs transition
-                            {{ request()->routeIs('admin.categories.*') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
+                            {{ request()->routeIs('admin.category_index') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
                             <span>Kelola Kategori</span>
                         </a>
 
+                        <a href="{{ route('admin.keuangan_index') }}" 
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-md font-medium text-xs transition
+                            {{ request()->routeIs('admin.keuangan_index') || request()->routeIs('admin.va.*') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>Keuangan & VA</span>
+                        </a>
+
                         <a href="#" 
                             class="flex items-center gap-3 px-3 py-2.5 rounded-md font-medium text-xs transition
-                            {{ request()->routeIs('admin.upload*') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
+                            {{ request()->routeIs('admin.upload') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
                             <span>Upload Hasil & Sertifikat</span>
                         </a>
 
                         <a href="#" 
                             class="flex items-center gap-3 px-3 py-2.5 rounded-md font-medium text-xs transition
-                            {{ request()->routeIs('admin.pendapatan*') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
+                            {{ request()->routeIs('admin.pendapatan') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             <span>Laporan Pendapatan</span>
+                        </a>
+                        <a href="{{ route('admin.ta_index') }}" 
+                            class="flex items-center gap-3 px-3 py-2.5 rounded-md font-medium text-xs transition
+                            {{ request()->routeIs('admin.ta_index') ? 'bg-[#B8872F] text-white shadow-sm font-semibold' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                            <span>Kelola Tenaga Ahli</span>
                         </a>
                     </nav>
                 @else
@@ -205,5 +221,6 @@
             }
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

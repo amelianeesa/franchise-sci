@@ -12,6 +12,7 @@ class VirtualAccount extends Model
         'branch_id',
         'bank_name',
         'va_number',
+        'atas_nama',
         'is_active',
     ];
 

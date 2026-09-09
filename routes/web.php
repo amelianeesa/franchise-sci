@@ -9,10 +9,9 @@ use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\PusatController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
-
-
 use App\Http\Controllers\LacakController;
-
+use App\Http\Controllers\KelolaTenagaAhliController;
+use App\Http\Controllers\KeuanganController;
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 
@@ -59,6 +58,17 @@ Route::middleware(['auth', 'role:admin_pusat,admin_cabang'])->prefix('admin')->g
     Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('admin.category_edit');
     Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('admin.category_update');
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('admin.category_destroy');
+
+    // tenaga ahli
+    Route::get('/tenaga-ahli', [KelolaTenagaAhliController::class, 'index'])->name('admin.ta_index');
+    Route::post('/tenaga-ahli', [KelolaTenagaAhliController::class, 'store'])->name('admin.ta_store');
+    Route::put('/tenaga-ahli/{user}', [KelolaTenagaAhliController::class, 'update'])->name('admin.ta_update');
+    Route::put('/tenaga-ahli/{user}/reset-password', [KelolaTenagaAhliController::class, 'resetPassword'])->name('admin.ta_reset_password');
+
+    Route::get('/keuangan', [KeuanganController::class, 'index'])->name('admin.keuangan_index');
+    Route::post('/keuangan/va', [KeuanganController::class, 'storeVA'])->name('admin.va_store');
+    Route::put('/keuangan/va/{id}', [KeuanganController::class, 'updateVA'])->name('admin.va_update');
+    Route::delete('/keuangan/va/{id}', [KeuanganController::class, 'destroyVA'])->name('admin.va_destroy');
 });
 
 Route::middleware(['auth', 'role:tenaga_ahli'])->prefix('mitra')->group(function () {
