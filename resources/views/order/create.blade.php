@@ -3,7 +3,7 @@
 @section('title', 'Buat Order Baru - SILAFCO')
 
 @section('content')
-<div class="max-w-5xl mx-auto px-6 -mt-6 space-y-4">
+<div class="w-full px-6 -mt-6 space-y-4">
 
     <div class="flex items-center gap-3 pb-2 border-b border-slate-200">
         <button type="button" id="backBtn" onclick="handleBack()"
@@ -52,6 +52,8 @@
             <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Layanan Terpilih</span>
                 <p class="text-sm font-bold text-[#0B2A4A] mt-0.5" id="selectedProductLabel"></p>
+                <p class="text-xs mt-1.5" id="selectedProductPrice"></p>
+                <p class="text-[10px] text-slate-400 mt-1.5 italic">*Estimasi harga acuan. Nilai final akan tercantum pada penawaran resmi dari Admin Pusat setelah order diverifikasi.</p>
             </div>
 
             <form action="{{ route('order.store') }}" method="POST" id="orderForm" class="space-y-4">
@@ -122,6 +124,10 @@
         );
     }
 
+    function formatRupiah(angka) {
+        return 'Rp' + Number(angka).toLocaleString('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+
     function haversineKm(lat1, lon1, lat2, lon2) {
         const toRad = (deg) => deg * Math.PI / 180;
         const R = 6371;
@@ -158,7 +164,7 @@
 
             return `
                 <div onclick="selectCategory(${cat.id})"
-                    class="group bg-white rounded-xl border border-slate-200 p-5 hover:border-[#0B2A4A] hover:shadow-sm transition cursor-pointer flex flex-col justify-between h-full">
+                    class="group bg-white rounded-xl border border-slate-200 p-3 hover:border-[#0B2A4A] hover:shadow-sm transition cursor-pointer flex flex-col justify-between h-full">
                     <div>
                         <h3 class="font-bold text-slate-800 text-sm mb-1 group-hover:text-[#0B2A4A] transition-colors">${catName}</h3>
                         <p class="text-xs text-slate-500 leading-relaxed">${catDesc}</p>
@@ -186,7 +192,7 @@
             ` : ''}
         `;
     }
-
+ 
     function selectCategory(categoryId) {
         CURRENT_CATEGORY = CATEGORIES.find(c => c.id === categoryId);
         const categoryName = CURRENT_CATEGORY.nama ?? CURRENT_CATEGORY.name ?? CURRENT_CATEGORY.title;
@@ -233,15 +239,19 @@
             const pName = p.nama_produk ?? p.nama ?? p.name ?? p.title;
             const pDesc = p.deskripsi ?? p.description;
             const pSatuan = p.satuan ?? p.unit;
+            const pHarga = p.harga_dasar;
 
             return `
-                <div onclick="selectProduct(${p.id}, '${pName.replace(/'/g, "\\'")}')"
+                <div onclick="selectProduct(${p.id}, '${pName.replace(/'/g, "\\'")}', ${pHarga ?? 'null'}, '${(pSatuan ?? '').replace(/'/g, "\\'")}')"
                     class="p-4 border border-slate-200 hover:border-[#0B2A4A] bg-white rounded-lg cursor-pointer transition flex items-center justify-between group">
-                    <div>
+                    <div class="min-w-0">
                         <p class="text-xs font-bold text-slate-800 group-hover:text-[#0B2A4A] transition-colors">${pName}</p>
                         ${pDesc ? `<p class="text-[11px] text-slate-500 mt-0.5 line-clamp-2">${pDesc}</p>` : ''}
                     </div>
-                    ${pSatuan ? `<span class="text-[10px] font-semibold bg-slate-100 text-slate-600 px-2 py-1 rounded shrink-0 ml-3">${pSatuan}</span>` : ''}
+                    <div class="text-right shrink-0 ml-3">
+                        ${pHarga !== null ? `<p class="text-xs font-bold text-[#0B2A4A]">${formatRupiah(pHarga)}</p>` : `<p class="text-[11px] text-slate-400 italic">Hubungi admin</p>`}
+                        ${pSatuan ? `<p class="text-[10px] text-slate-400">${pSatuan}</p>` : ''}
+                    </div>
                 </div>
             `;
         }).join('');
@@ -251,9 +261,17 @@
         renderProductList(this.value);
     });
 
-    function selectProduct(productId, productName) {
+    function selectProduct(productId, productName, productPrice, productSatuan) {
         document.getElementById('productIdInput').value = productId;
         document.getElementById('selectedProductLabel').textContent = productName;
+
+        const priceLabel = document.getElementById('selectedProductPrice');
+        if (productPrice !== null) {
+            priceLabel.innerHTML = `Estimasi biaya: <span class="font-bold text-[#0B2A4A]">${formatRupiah(productPrice)}</span>${productSatuan ? ` <span class="text-slate-400">/ ${productSatuan}</span>` : ''}`;
+        } else {
+            priceLabel.innerHTML = `<span class="text-slate-400 italic">Harga belum ditentukan — akan diinformasikan pada tahap penawaran.</span>`;
+        }
+
         goToStep(3);
     }
 

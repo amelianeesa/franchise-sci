@@ -6,13 +6,14 @@
     <title>Daftar Akun - SILAFCO Sucofindo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    </style>
+<style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; }
+    h1, h2, h3, h4, h5, h6 { font-weight: 700; }
+</style>
 </head>
 <body class="bg-slate-100/70 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
 
-    @include('partials.navbar-guest')
+    @include('partials.navbar-guest', ['authPage' => 'register'])
 
     <main class="flex-1 flex items-center justify-center px-4 py-8">
         <div class="w-full max-w-2xl bg-white rounded-2xl p-6 md:p-8 border border-slate-200/80 shadow-sm space-y-6">

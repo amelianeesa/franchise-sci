@@ -15,6 +15,7 @@ class Order extends Model
         'tanggal_rencana_pelaksanaan',
         'status',
         'catatan_pelanggan',
+        'alasan_penolakan',
     ];
 
     protected $casts = [
@@ -60,20 +61,28 @@ class Order extends Model
     }
 
     public function currentStepIndex(): int
+{
+    $map = [
+        'pengajuan' => 0,
+        'menunggu_persetujuan_penawaran' => 0,
+        'po_terbit' => 1,
+        'dikerjakan' => 2,
+        'menunggu_pembayaran' => 3,
+        'lunas' => 3,
+        'selesai' => 4,
+    ];
+
+    return $map[$this->status] ?? 0;
+}
+
+    public function statusBadgeClass(): string
     {
-        $order = ['pengajuan', 'menunggu_persetujuan_penawaran', 'po_terbit', 'dikerjakan', 'menunggu_pembayaran', 'lunas', 'selesai'];
-        $displaySteps = ['Diajukan', 'Disetujui / PO Terbit', 'Dikerjakan', 'Menunggu Pembayaran', 'Lunas', 'Selesai'];
-
-        $map = [
-            'pengajuan' => 0,
-            'menunggu_persetujuan_penawaran' => 0,
-            'po_terbit' => 1,
-            'dikerjakan' => 2,
-            'menunggu_pembayaran' => 3,
-            'lunas' => 4,
-            'selesai' => 5,
-        ];
-
-        return $map[$this->status] ?? 0;
+        return match ($this->status) {
+            'ditolak', 'dibatalkan' => 'bg-rose-100 text-rose-700 border border-rose-200',
+            'selesai' => 'bg-emerald-100 text-emerald-700 border border-emerald-200',
+            'lunas' => 'bg-sky-100 text-sky-700 border border-sky-200',
+            'menunggu_pembayaran' => 'bg-amber-100 text-amber-700 border border-amber-200',
+            default => 'bg-slate-200 text-slate-700 border border-slate-300',
+        };
     }
 }

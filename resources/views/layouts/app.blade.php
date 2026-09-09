@@ -6,15 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Dashboard - SILAFCO Sucofindo')</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        body { 
-            font-family: 'IBM Plex Sans', sans-serif; 
-        }
-        .font-mono-code { 
-            font-family: 'IBM Plex Mono', monospace; 
-        }
-    </style>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; }
+    h1, h2, h3, h4, h5, h6 { font-weight: 700; }
+    .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+</style>
 </head>
 <body class="bg-slate-100/80 text-slate-800 antialiased min-h-screen flex">
 
@@ -22,8 +19,7 @@
 
     <aside id="sidebar" class="w-64 bg-[#0B2A4A] text-white min-h-screen flex flex-col justify-between shrink-0 shadow-xl fixed left-0 top-0 bottom-0 z-50 transition-transform duration-300 -translate-x-full md:translate-x-0">
         <div>
-            <div class="p-5 border-b border-white/10 flex items-center justify-between">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
+            <div class="pt-6 px-5 pb-2 border-b border-white/10 flex items-center justify-between">
                     <img src="{{ asset('images/logo_sci.png') }}" alt="Sucofindo" class="h-8 w-auto bg-white p-1 rounded">
                     <div class="flex flex-col">
                         <span class="font-semibold text-base tracking-tight text-white leading-none">SILAFCO</span>
